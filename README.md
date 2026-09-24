@@ -22,7 +22,7 @@
 
 ## 安装
 
-推荐从 [GitHub 最新版本](https://github.com/iamcndl/xiaoya-course-downloader-edge/releases/latest) 下载 `小雅课件下载-Edge-v1.3.7.zip`：
+推荐从 [GitHub 最新版本](https://github.com/iamcndl/xiaoya-course-downloader-edge/releases/latest) 下载 `xiaoya-course-downloader-edge-v1.3.7.zip`：
 
 1. 解压压缩包。
 2. 在 Edge 地址栏打开 `edge://extensions`。

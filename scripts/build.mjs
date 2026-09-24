@@ -48,6 +48,6 @@ for(const filename of ['manifest.json','app.html','app.css','app.js','services.j
 const manifest=JSON.parse(new TextDecoder().decode(files['manifest.json']));
 const bundle={};for(const[name,data]of Object.entries(files))bundle['小雅课件下载/'+name]=data;
 bundle['安装与使用.txt']=strToU8(await fs.readFile('docs/安装与使用.txt','utf8'));
-await fs.writeFile(`dist/小雅课件下载-Edge-v${manifest.version}.zip`,zipSync(bundle,{level:6}));
+await fs.writeFile(`dist/xiaoya-course-downloader-edge-v${manifest.version}.zip`,zipSync(bundle,{level:6}));
 await fs.writeFile(`dist/小雅课件下载-商店提交-v${manifest.version}.zip`,zipSync(files,{level:6}));
 console.log(JSON.stringify({version:manifest.version,files:Object.keys(files).length,packages:await fs.readdir('dist')},null,2));
