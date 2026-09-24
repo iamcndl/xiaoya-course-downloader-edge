@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>小雅课件下载</title>
+    <link rel="stylesheet" href="app.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="app.html" aria-label="小雅课件下载首页">
+          <span class="brand-symbol" aria-hidden="true">雅</span>
+          <span>小雅课件下载</span>
+        </a>
+        <span class="header-caption">让课程资料，有序留在电脑里</span>
+        <span class="edition-label">EDGE 扩展</span>
+      </header>
+
+      <main>
+        <section class="course-picker" aria-labelledby="course-picker-label">
+          <div class="step-label"><span class="step-number">01</span><h2 id="course-picker-label">选择课程</h2></div>
+          <div class="course-controls">
+            <label class="sr-only" for="course-select">课程</label>
+            <select id="course-select"><option value="">请先读取课程列表</option></select>
+            <button id="refresh-courses" class="button button-secondary" type="button">刷新课程</button>
+            <button id="load-course" class="button button-primary" type="button">读取课件</button>
+          </div>
+          <p class="course-picker-note">使用当前浏览器中的小雅登录状态</p>
+        </section>
+
+        <div class="workspace">
+          <section class="resources" aria-labelledby="course-title">
+            <div class="resource-heading">
+              <div class="eyebrow"><span class="step-number">02</span>选择需要的文件</div>
+              <h1 id="course-title">选择一门课程</h1>
+              <p id="course-meta" class="muted">课程中的可下载附件会显示在这里。</p>
+            </div>
+
+            <div class="filter-bar">
+              <div class="search-field">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m12.5 12.5 4 4"></path></svg>
+                <label class="sr-only" for="search">搜索文件或章节</label>
+                <input id="search" type="search" placeholder="搜索文件或章节" autocomplete="off" spellcheck="false">
+              </div>
+              <label class="sr-only" for="type-filter">文件类型</label>
+              <select id="type-filter">
+                <option value="all">全部类型</option>
+                <option value="ppt">演示文稿</option>
+                <option value="pdf">PDF 文档</option>
+                <option value="doc">Word 文档</option>
+                <option value="sheet">电子表格</option>
+                <option value="image">图片</option>
+                <option value="video">视频</option>
+                <option value="assignment">作业题目 / 答卷</option>
+                <option value="discussion">讨论主题</option>
+                <option value="archive">压缩文件</option>
+                <option value="other">其他文件</option>
+              </select>
+            </div>
+
+            <div class="list-toolbar">
+              <span class="list-count">当前显示 <strong id="visible-count">0</strong> 个文件</span>
+              <div class="selection-actions">
+                <button id="select-visible" class="text-button" type="button">全选当前结果</button>
+                <span class="toolbar-divider" aria-hidden="true"></span>
+                <button id="clear-videos" class="text-button" type="button">取消全选视频</button>
+                <span class="toolbar-divider" aria-hidden="true"></span>
+                <button id="clear-selection" class="text-button" type="button">清空选择</button>
+              </div>
+            </div>
+
+            <div class="file-list-surface">
+              <div id="file-list" aria-label="课程文件列表"></div>
+              <div id="empty-state" class="empty-state">
+                <span class="empty-symbol" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" fill="none"><path d="M10 10h15l9 9v21H10V10Z"></path><path d="M25 10v10h9M17 28h10M17 33h7"></path></svg>
+                </span>
+                <h2>从一门课程开始</h2>
+                <p>先在 Edge 中登录小雅，点击「刷新课程」，<br>选择课程后点击「读取课件」。</p>
+                <span class="empty-footnote">读取完成后，可按章节、名称或资源类型筛选。</span>
+              </div>
+            </div>
+          </section>
+
+          <aside class="download-pane" aria-labelledby="download-title">
+            <div class="eyebrow"><span class="step-number">03</span>保存到电脑</div>
+            <h2 id="download-title">下载设置</h2>
+            <div class="selection-summary">
+              <span>已选择</span>
+              <div><strong id="selected-count">0</strong><span>个文件</span></div>
+            </div>
+
+            <div class="folder-setting">
+              <div class="setting-label"><span>保存位置</span><button id="choose-folder" class="text-button" type="button">选择文件夹</button></div>
+              <p id="folder-name" class="folder-name">尚未选择文件夹</p>
+              <label class="checkbox-label" for="preserve-folders"><input id="preserve-folders" type="checkbox" checked><span>保留课程与章节目录</span></label>
+            </div>
+
+            <div id="permissions-note" class="permissions-note" hidden>
+              <strong>媒体服务器访问权限</strong>
+              <p>所选附件或视频需要访问以下域名：</p>
+              <div id="permission-domains"></div>
+            </div>
+
+            <div class="download-actions">
+              <button id="prepare-download" class="button button-primary button-wide" type="button">准备下载</button>
+              <button id="start-download" class="button button-primary button-wide" type="button" hidden>开始下载</button>
+              <button id="cancel-download" class="button button-secondary button-wide" type="button" hidden>取消下载</button>
+              <button id="retry-failed" class="button button-secondary button-wide" type="button" hidden>重试失败文件</button>
+            </div>
+            <p id="busy-note" class="busy-note"><span aria-hidden="true"></span>下载时请保持此页面打开</p>
+
+            <section class="progress-section" aria-labelledby="progress-heading">
+              <div class="section-heading"><h3 id="progress-heading">下载进度</h3><span id="progress-label">尚未开始</span></div>
+              <progress id="progress" max="100" value="0" aria-label="下载进度">0%</progress>
+              <p id="status" role="status" aria-live="polite">选择文件与保存位置后，即可准备下载。</p>
+              <div id="activity-list" class="activity-list" aria-label="文件下载记录"></div>
+              <button id="export-report" class="button button-secondary button-wide report-button" type="button" disabled>导出下载报告</button>
+              <p class="report-note">下载报告只在点击导出时生成在本地，含课程名、资源名和章节路径；分享前请检查。</p>
+            </section>
+
+            <details class="help">
+              <summary>使用说明与下载范围</summary>
+              <div class="help-content">
+                <p>本扩展使用当前 Edge 浏览器中的小雅登录状态。使用前，请先在小雅网站登录并确认有权访问对应课程。</p>
+                <p>支持课程附件、点播视频、作业题目与讨论主题。作业资源会导出题目和选项；已打开的作答页会附带页面上可见的个人答案和成绩。讨论只保存主题说明，不包含同学发言。</p>
+                <p>视频支持播放清单和直接视频文件，按源格式保存，不进行转码。如果授权接口没有返回播放地址，请先在小雅打开对应视频并等待播放器加载，再用扩展准备下载。直播、采用独立音轨的视频暂不支持；扩展不会绕过访问限制。</p>
+                <p>这是独立的 Edge 扩展，无需安装油猴或其他用户脚本。下载完成前，请保持此页面打开。</p>
+              </div>
+            </details>
+          </aside>
+        </div>
+      </main>
+      <footer class="app-footer"><span>小雅课件下载</span><span>请合理使用你有权访问的课程资料。</span></footer>
+    </div>
+  </body>
+</html>
